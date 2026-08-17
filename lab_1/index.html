@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moss & Page — a cozy book nook</title>
+  <meta name="description" content="A calm, botanical catalogue of literary and nature books. Search, filter by mood, and grow your own reading nook.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <svg class="brand-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M24 42V22" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M24 22c0-9 -7-14-15-14 0 9 6 16 15 16Z" fill="currentColor" opacity="0.85"/>
+          <path d="M24 26c0-8 7-13 15-13 0 8.5-6.5 15-15 15Z" fill="currentColor" opacity="0.55"/>
+        </svg>
+        <span>
+          <span class="brand-text">Moss &amp; Page</span>
+          <span class="brand-sub">a cozy reading nook</span>
+        </span>
+      </a>
+
+      <div class="header-actions">
+        <button type="button" id="nookToggle" class="nook-toggle" aria-haspopup="dialog" aria-expanded="false" aria-controls="nookPanel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+            <path d="M5 20V9a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v11" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 20v-6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 7c0-2.5-2-4-4-4 0 2.5 1.6 4.3 4 4Z" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="nook-toggle-label">My Nook</span>
+          <span class="nook-badge" id="nookCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero container">
+      <p class="hero-eyebrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c4 3 6 7 6 11a6 6 0 1 1-12 0c0-4 2-8 6-11Z"/></svg>
+        52 books to curl up with
+      </p>
+      <h1 id="headerNote">A quiet shelf for poetry, philosophy &amp; wandering minds</h1>
+      <p>Browse a hand-picked herbarium of literary and nature writing. Search, sort, filter by mood, and tuck your favourites into your own growing reading nook.</p>
+
+      <svg class="vine-divider" viewBox="0 0 420 36" fill="none" aria-hidden="true">
+        <path d="M4 18c40-20 80 20 120 0s80-20 120 0 80 20 120 0s40-20 52-14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="60" cy="14" r="3" fill="currentColor"/>
+        <circle cx="150" cy="24" r="3" fill="currentColor"/>
+        <circle cx="240" cy="10" r="3" fill="currentColor"/>
+        <circle cx="330" cy="24" r="3" fill="currentColor"/>
+        <path d="M60 14c6-8 16-8 20-2-8 4-16 4-20 2Z" fill="currentColor"/>
+        <path d="M240 10c-6-8-16-8-20-2 8 4 16 4 20 2Z" fill="currentColor"/>
+      </svg>
+    </section>
+
+    <section class="mood-section container" aria-label="Filter by reading mood">
+      <p class="mood-heading">What's your reading mood today?</p>
+      <div class="mood-row" id="moodRow" role="group" aria-label="Reading mood filters"></div>
+    </section>
+
+    <div class="container">
+      <div class="toolbar">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="search" id="searchInput" class="search-input" placeholder="Search title, author or theme…" autocomplete="off" aria-label="Search the catalogue">
+        </div>
+
+        <div class="select-field">
+          <label for="genreSelect">Genre</label>
+          <select id="genreSelect">
+            <option value="">All</option>
+          </select>
+        </div>
+
+        <div class="select-field">
+          <label for="sortSelect">Sort</label>
+          <select id="sortSelect">
+            <option value="title-asc">Title A–Z</option>
+            <option value="year-desc">Newest first</option>
+            <option value="year-asc">Oldest first</option>
+            <option value="rating-desc">Highest rated</option>
+            <option value="author-asc">Author A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="result-count" id="resultCount" role="status" aria-live="polite"></p>
+
+      <ul class="book-grid" id="bookGrid" aria-label="Book results"></ul>
+    </div>
+  </main>
+
+  <!-- Nook panel: personal shelf + growing potted plant -->
+  <div class="nook-backdrop" id="nookBackdrop"></div>
+  <aside class="nook-panel" id="nookPanel" role="dialog" aria-modal="true" aria-labelledby="nookHeading" aria-hidden="true">
+    <div class="nook-panel-header">
+      <h2 id="nookHeading">My Reading Nook</h2>
+      <button type="button" class="nook-close" id="nookClose" aria-label="Close reading nook">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="nook-plant-wrap">
+      <div id="nookPlantSvg"></div>
+      <p class="nook-plant-caption" id="nookPlantCaption"></p>
+    </div>
+
+    <div class="nook-list" id="nookList"></div>
+  </aside>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <svg class="footer-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <path d="M12 21V9" stroke-linecap="round"/>
+        <path d="M12 9C12 4 8 2 4 2c0 4.5 3.5 8 8 7Z" fill="currentColor" stroke="none" opacity="0.8"/>
+        <path d="M12 12c0-4.5 4-6.5 8-6.5 0 4.5-3.5 7.5-8 7Z" fill="currentColor" stroke="none" opacity="0.5"/>
+      </svg>
+      <p>Moss &amp; Page — a cozy corner for readers</p>
+      <p>Variation D — Web Technology</p>
+    </div>
+  </footer>
+
+  <script src="js/books.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
